@@ -20,7 +20,7 @@ export default function Navbar() {
         <a class="nav-link" href="#">Pricing</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
+        <a className="nav-link" href="./creatuser">Signup</a>
       </li>
     </ul>
   </div>
