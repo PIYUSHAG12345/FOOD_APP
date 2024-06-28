@@ -1,70 +1,182 @@
-# Getting Started with Create React App
+# word-wrap [![NPM version](https://img.shields.io/npm/v/word-wrap.svg?style=flat)](https://www.npmjs.com/package/word-wrap) [![NPM monthly downloads](https://img.shields.io/npm/dm/word-wrap.svg?style=flat)](https://npmjs.org/package/word-wrap) [![NPM total downloads](https://img.shields.io/npm/dt/word-wrap.svg?style=flat)](https://npmjs.org/package/word-wrap) [![Linux Build Status](https://img.shields.io/travis/jonschlinkert/word-wrap.svg?style=flat&label=Travis)](https://travis-ci.org/jonschlinkert/word-wrap)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> Wrap words to a specified length.
 
-## Available Scripts
+## Install
 
-In the project directory, you can run:
+Install with [npm](https://www.npmjs.com/):
 
-### `npm start`
+```sh
+$ npm install --save word-wrap
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Usage
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```js
+var wrap = require('word-wrap');
 
-### `npm test`
+wrap('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.');
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Results in:
 
-### `npm run build`
+```
+  Lorem ipsum dolor sit amet, consectetur adipiscing
+  elit, sed do eiusmod tempor incididunt ut labore
+  et dolore magna aliqua. Ut enim ad minim veniam,
+  quis nostrud exercitation ullamco laboris nisi ut
+  aliquip ex ea commodo consequat.
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Options
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![image](https://cloud.githubusercontent.com/assets/383994/6543728/7a381c08-c4f6-11e4-8b7d-b6ba197569c9.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### options.width
 
-### `npm run eject`
+Type: `Number`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Default: `50`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The width of the text before wrapping to a new line.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Example:**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```js
+wrap(str, {width: 60});
+```
 
-## Learn More
+### options.indent
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Type: `String`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Default: `` (none)
 
-### Code Splitting
+The string to use at the beginning of each line.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+**Example:**
 
-### Analyzing the Bundle Size
+```js
+wrap(str, {indent: '      '});
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### options.newline
 
-### Making a Progressive Web App
+Type: `String`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Default: `\n`
 
-### Advanced Configuration
+The string to use at the end of each line.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**Example:**
 
-### Deployment
+```js
+wrap(str, {newline: '\n\n'});
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### options.escape
 
-### `npm run build` fails to minify
+Type: `function`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Default: `function(str){return str;}`
+
+An escape function to run on each line after splitting them.
+
+**Example:**
+
+```js
+var xmlescape = require('xml-escape');
+wrap(str, {
+  escape: function(string){
+    return xmlescape(string);
+  }
+});
+```
+
+### options.trim
+
+Type: `Boolean`
+
+Default: `false`
+
+Trim trailing whitespace from the returned string. This option is included since `.trim()` would also strip the leading indentation from the first line.
+
+**Example:**
+
+```js
+wrap(str, {trim: true});
+```
+
+### options.cut
+
+Type: `Boolean`
+
+Default: `false`
+
+Break a word between any two letters when the word is longer than the specified width.
+
+**Example:**
+
+```js
+wrap(str, {cut: true});
+```
+
+## About
+
+### Related projects
+
+* [common-words](https://www.npmjs.com/package/common-words): Updated list (JSON) of the 100 most common words in the English language. Useful for… [more](https://github.com/jonschlinkert/common-words) | [homepage](https://github.com/jonschlinkert/common-words "Updated list (JSON) of the 100 most common words in the English language. Useful for excluding these words from arrays.")
+* [shuffle-words](https://www.npmjs.com/package/shuffle-words): Shuffle the words in a string and optionally the letters in each word using the… [more](https://github.com/jonschlinkert/shuffle-words) | [homepage](https://github.com/jonschlinkert/shuffle-words "Shuffle the words in a string and optionally the letters in each word using the Fisher-Yates algorithm. Useful for creating test fixtures, benchmarking samples, etc.")
+* [unique-words](https://www.npmjs.com/package/unique-words): Return the unique words in a string or array. | [homepage](https://github.com/jonschlinkert/unique-words "Return the unique words in a string or array.")
+* [wordcount](https://www.npmjs.com/package/wordcount): Count the words in a string. Support for english, CJK and Cyrillic. | [homepage](https://github.com/jonschlinkert/wordcount "Count the words in a string. Support for english, CJK and Cyrillic.")
+
+### Contributing
+
+Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new).
+
+### Contributors
+
+| **Commits** | **Contributor** | 
+| --- | --- |
+| 43 | [jonschlinkert](https://github.com/jonschlinkert) |
+| 2 | [lordvlad](https://github.com/lordvlad) |
+| 2 | [hildjj](https://github.com/hildjj) |
+| 1 | [danilosampaio](https://github.com/danilosampaio) |
+| 1 | [2fd](https://github.com/2fd) |
+| 1 | [toddself](https://github.com/toddself) |
+| 1 | [wolfgang42](https://github.com/wolfgang42) |
+| 1 | [zachhale](https://github.com/zachhale) |
+
+### Building docs
+
+_(This project's readme.md is generated by [verb](https://github.com/verbose/verb-generate-readme), please don't edit the readme directly. Any changes to the readme must be made in the [.verb.md](.verb.md) readme template.)_
+
+To generate the readme, run the following command:
+
+```sh
+$ npm install -g verbose/verb#dev verb-generate-readme && verb
+```
+
+### Running tests
+
+Running and reviewing unit tests is a great way to get familiarized with a library and its API. You can install dependencies and run tests with the following command:
+
+```sh
+$ npm install && npm test
+```
+
+### Author
+
+**Jon Schlinkert**
+
+* [github/jonschlinkert](https://github.com/jonschlinkert)
+* [twitter/jonschlinkert](https://twitter.com/jonschlinkert)
+
+### License
+
+Copyright © 2017, [Jon Schlinkert](https://github.com/jonschlinkert).
+Released under the [MIT License](LICENSE).
+
+***
+
+_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.6.0, on June 02, 2017._
